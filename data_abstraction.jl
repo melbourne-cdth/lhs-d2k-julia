@@ -67,13 +67,24 @@ html"""<a title="muffinn from Worcester, UK, CC BY 2.0 &lt;https://creativecommo
 html"""<a title="DFoidl, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Taurus_cattle_Lippeaue2.JPG"><img width="512" alt="Taurus cattle Lippeaue2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Taurus_cattle_Lippeaue2.JPG/512px-Taurus_cattle_Lippeaue2.JPG"></a>"""
 
 # ╔═╡ b54a636b-e3aa-4012-8e94-a7248e4392fe
-md"""However, to build a model we need to choose a level of granularity and try to stay within it, or the whole model would evaporate into the nothingness of truth. Any level of granularity is called a _stereotype_; e.g., we stereotype objects on earth by saying they each have a weight. A stereotype is a lie, more politely a conceptual simplification, that is convenient for the way we want to do business. (Spivak, David I. _Category Theory for the Sciences_ (p. 45). MIT Press.)"""
+md"""However, to build a model we need to choose a level of granularity and try to stay within it, or the whole model would evaporate into the nothingness of truth. Any level of granularity is called a _stereotype_; e.g., we stereotype objects on earth by saying they each have a weight. A stereotype is a lie, more politely a conceptual simplification, that is convenient for the way we want to do business. (Spivak, David I. _Category Theory for the Sciences_ (p. 45). MIT Press.)
 
-# ╔═╡ d1899c4d-5e31-4117-bb02-43f77e782ede
-md"""
+## Maps as Data Abstraction
+
+
+Common examples of data abstractions are maps. What makes a map more useful than, say, a satellite image of the same region?
+
+### __Example:__ Washington D.C. Metro Map
+
 
 ![DC Metrorail Map](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Wash-dc-metro-map.png/420px-Wash-dc-metro-map.png)
 
+#### Questions:
+
+1. What are some of the abstractions that you think are in this map? (You might want to use Google Maps or some other map resource to look at the DC region.)
+1. Why do you think thees abstractions were made?
+#### Type your answers here
+$(@bind resp1 TextField((80,7)))
 """
 
 # ╔═╡ dc07f793-b2ad-4180-814c-b143382a47f5
@@ -92,6 +103,11 @@ Limiting ourselves to the redline with a starting point of Metro Central, the Me
 Again on the red line, we see that Rockville is located significantly west of Glenmont. However, from the Google Map we see that Rockville is located north north-west of Glenmont.
 	
 ### How does the abstraction help its purpose?
+	
+- Imagine the difficulty of differentiating all the metro stations in the inner-city region while still identicating the location of the suburban stations.
+- You could not use this map to:
+	- Estimate driving time between ...
+	- ???
 """
 	
 HTML("""<details><summary><strong>My Answers</strong></summary><iframe src="https://widgets.figshare.com/articles/16557987/embed?show_title=0" width="384" height="237"  frameborder="0"></iframe>$(html(mapanswer))</details>""")
@@ -100,7 +116,12 @@ end
 
 
 # ╔═╡ fb8e8f2e-ecc0-46d8-bc79-b3ed773040b2
+md"""
+## Abstracting a Patient
 
+When we generate and collect data on a patient, we are following the same steps the map maker is taking.
+
+"""
 
 # ╔═╡ 0f62a4eb-3f72-4cab-b966-5b6847a118e1
 html"""<h2> Further Resources on Abstraction</h2>
@@ -117,326 +138,6 @@ md"""
 md"""
 - [What is up with the spherical cow?](https://www.wired.com/2011/02/what-is-up-with-the-spherical-cow/)
 """
-
-# ╔═╡ cfc1481b-2ba1-4b0a-8df6-1426887098fb
-mutable struct DP
-	value::String
-	category::String
-end
-
-# ╔═╡ dda0c810-3ad1-4c72-a28d-cd32a0540db5
-mutable struct DDP
-	dind::Int64
-	data
-end
-
-# ╔═╡ 8ae64b39-cd4f-4b4c-8fbc-de2cd272d87c
-dp = DP("None", "")
-
-# ╔═╡ 4fea730f-ec8b-443b-9e85-3f950810555f
-md"""Data Value:
-$(@bind dv TextField())
-Data category
-$(@bind dc Select(["Administrative", "Clinical", "Demographic", "Metadata"]))
-
-Submit:
-$(@bind go Button("Submit"))
-"""
-
-# ╔═╡ b67a22a2-1c63-4d59-9d85-50dd2b82d6ea
-begin
-	dp.value = dv
-	dp.category = dc
-	dp
-end
-
-# ╔═╡ 27f18bba-4437-43c1-88c6-5420e29e1812
-data = Dict()
-
-# ╔═╡ 70646a29-7ac8-43ed-9bef-44757b7ccfdd
-ddp = DDP(0, data)
-
-# ╔═╡ c4809dcb-018d-40e0-8538-cd6094dd8582
-get(data, 1, "")
-
-# ╔═╡ 27a2958b-596c-46a9-8d64-8787c2286a9d
-count = length(data)
-
-# ╔═╡ 79ba9ca4-a406-49b4-bfc2-a338a4587459
-dp
-
-# ╔═╡ 5c479232-fa39-44bb-ab0a-6b52ecd9a7f0
-edv
-
-# ╔═╡ 9743b9fc-de73-4c61-a72e-e9dae0981108
-edv.default = "BC"
-
-# ╔═╡ ceba8bf0-1dbd-45d4-a2ca-4dbd62bd05e2
-dv, dc
-
-# ╔═╡ 04b1d8e1-d608-4b15-88a9-22e483cc8ed1
-function getLastIndex(dd)
-	if length(dd) == 0
-		return 0
-	else
-		sort(collect(keys(dd)))[end]
-	end
-end
-
-# ╔═╡ 341a2299-4a73-493f-9edb-9946ab72ea54
-function getNextIndex(dd)
-	if length(dd) == 0
-		return 0
-	else
-		getLastIndex(dd) + 1
-	end
-end
-
-# ╔═╡ 5e0af51a-a2ff-4212-82dd-3712aad5be11
-getNextIndex(data)
-
-# ╔═╡ 919a4b28-70cb-46eb-b856-7bf12f322282
-dvr = Ref(dv)
-
-# ╔═╡ 1e25eace-e278-42cb-a7cc-cff59bf2b5fd
-dcr = Ref(dc)
-
-# ╔═╡ 5ee86992-73c5-4af9-a812-396dcfdbeae8
-begin
-	go
-	ind = getNextIndex(data)
-		
-	data[ind] = Dict([("Index", ind), ("Value", dp.value), ("Category", dp.category)])
-end
-
-# ╔═╡ fa5f571d-1354-4e0e-953e-1b4fedd29295
-typeof(tuple(["data"]))
-
-# ╔═╡ b377b128-c4b6-447d-a998-b285facce998
-Set(["Administrative", "Clinical", "Demographic", "Metadata"])
-
-# ╔═╡ 64b99e6d-c0ff-4736-baba-3d6cf1f407ec
-function generate_select(dd; category = "Administrative")
-	options = [Pair(repr(k), """$(v["Value"]): $(v["Category"])""") 
-		          for (k,v) in data if v["Category"] == category]
-	Select(options)
-end
-	
-
-# ╔═╡ 7fc4ac6a-9d21-4af2-99b1-b4c72d221f54
-function generate_select_delete(dd)
-	options = [Pair(repr(k), """$(v["Value"]): $(v["Category"])""") for (k,v) in data]
-	push!(options, Pair("-1", "NA"))
-	Select(options, default="-1")
-end
-
-# ╔═╡ 89488e6e-ba8f-4848-aa5d-9e32dddd59c5
-[typeof(v["Category"]) for (k,v) in data]
-
-
-# ╔═╡ f730dd53-fecd-4f3d-8829-eed9686b6b48
-md"""Select Entry to Edit
-$(@bind ei generate_select(data))
-"""
-
-# ╔═╡ fd37878d-093b-4c79-9f09-077750165541
-begin
-	ein = parse(Int64, ei)
-md"""Edit Value:
-$(@bind nv TextField(default=data[ein]["Value"]))
-Edit category
-$(@bind nc MultiSelect(["Administrative", "Clinical", "Demographic", "Metadata"],
-		            default=data[ein]["Category"]))
-"""
-
-end
-
-# ╔═╡ 3e0c4d2c-2134-4aa9-ab45-97ca26ea86e1
-begin
-	data[ein]["Value"] = nv
-	data[ein]["Category"] = nc
-end
-
-# ╔═╡ 95cb3a98-a9a0-4e36-bcec-ec7ee75ebd93
-data
-
-# ╔═╡ a7774223-fe86-43a2-afc0-858a857495fb
-md"""Select Entry to Delete
-$(@bind di generate_select_delete(data))
-$(@bind dodelete Button("Confirm Delete"))
-"""
-
-# ╔═╡ 999f763c-ff73-44ad-8826-543e98597710
-
-
-# ╔═╡ f0cb1a31-a70d-4a07-a558-b6a568c20334
-begin
-	dodelete
-	delete!(ddp.data, ddp.dind)
-	
-end
-
-# ╔═╡ fd2a9029-94e9-413e-9bc7-54bb4971c745
-data
-
-# ╔═╡ 68b9cec8-3eeb-4530-8ce7-40f0d2346a27
-function data2node(nv, mmap, dmap)
-    label = "$(dmap[nv]["Value"]): $(dmap[nv]["Category"])"
-    if haskey(mmap, nv)
-        children = [data2node(c, mmap, dmap) for c in mmap[nv]]
-        Pair(label, children)
-	else
-		Pair(label, "")
-    end
-end
-
-# ╔═╡ d58fe3bf-e40e-4a96-8cd6-a4d5eede14c7
-function data2tv(meta, dmap)
-    tree = []
-    for dataum in keys(meta)
-        node = data2node(dataum, meta, dmap)
-        push!(tree, node)
-    end
-    tree
-end
-
-# ╔═╡ 675a489a-1d88-4aa6-a358-f7cd0ed8e0a8
-struct FoundData
-    raw
-    map
-end
-
-
-# ╔═╡ e8dc14af-7542-47ef-be5f-1d8c8f267b0b
-function data_to_index_map(data)
-    Dict([(d["Index"], d) for d in data])
-end
-
-# ╔═╡ 930d08b0-1c26-48da-9d21-c5c17c1c0cd0
-function read_data(fname)
-    raw = YAML.load_file(fname)
-    FoundData(raw, data_to_index_map(raw))
-end
-
-# ╔═╡ 31074aa4-de28-41e6-938a-8ad9e0b959f3
-bdata = "/Users/brian/Documents/Melbourne/isys_90069/modules/Foundations/MedicalData/BirthData/bec_birth_data_all_with_map.yaml"
-
-# ╔═╡ d2770a88-f918-424e-b899-adf729cecf21
-begin
-	din = parse(Int64, di)
-	rdin = Ref(din)
-end
-
-# ╔═╡ 0ec39670-0cee-4699-b7af-7a296ec2a590
-ddp.dind = rdin[]
-
-# ╔═╡ 3659db19-f0f7-47df-b23f-96d71bd60710
-ddata = YAML.load_file(bdata)
-
-# ╔═╡ 24dd195d-2ad2-40cf-9a82-31043440b741
-keys(ddata)
-
-# ╔═╡ ec759f2d-7bb3-4212-ab8d-1aa840851f4e
-dmap = data_to_index_map(ddata["raw_data"])
-
-# ╔═╡ 84bfa1b5-3612-4dba-ba6f-8f0ab12c634e
-vd = data2tv(ddata["meta_map"], dmap)
-
-# ╔═╡ fbe8f51f-7b88-4e25-be2d-d58461092f8f
-show(pprint(vd))
-
-# ╔═╡ 4d1ea5b1-9e31-467e-8247-291641d878c2
-vdd = [d for d in vd]
-
-# ╔═╡ 630757a3-8c5a-4c3c-9aae-628d4253b235
-typeof(vdd)
-
-# ╔═╡ a0bc4350-a777-4586-8711-704fc6603e3c
-
-
-# ╔═╡ 500476c5-a031-47d2-83e9-d5f321cbc1cb
-html"""<h2>Hello, Brian</h2>"""
-
-# ╔═╡ 77ea9a70-a091-49aa-b9e8-fdad639214f8
-io = IOBuffer()
-
-# ╔═╡ e4608205-401b-480c-b184-1b43a032e8a9
-pprint(io, vdd)
-
-# ╔═╡ 7de9490d-1fca-446e-bac3-1479437cae41
-ts = String(take!(io))
-
-# ╔═╡ 39b0935a-d6fa-49e8-8ae4-2c2288ab437c
-md"""$(ts)"""
-
-# ╔═╡ e369af66-985b-4c09-b2b0-86bef2d3339a
-
-
-# ╔═╡ 427b7fdb-cade-4303-b38f-6399154d24ab
-let
-	    content = md"""The above macro generates two functions, one is `f` and another is `~f` (or `Inv(f)`). The `x += y * constant` is translated to function `(x, y, constant) = PlusEq(*)(x, y, constant)`, where the function `PlusEq(*)` is clearly bijective.
-    blablabla...
-    """
-	    HTML("<details><summary><strong>For experts</strong></summary>$(html(content))</details>")
-    end
-
-# ╔═╡ 4379a3ca-743e-4ada-a5f6-9fabb1f74dbf
-content = md"""The above macro generates two functions, one is `f` and another is `~f` (or `Inv(f)`). The `x += y * constant` is translated to function `(x, y, constant) = PlusEq(*)(x, y, constant)`, where the function `PlusEq(*)` is clearly bijective.
-    blablabla...
-    """
-	    HTML("<details><summary><strong>For experts</strong></summary>$(html(content))</details>")
-
-# ╔═╡ 81723365-c5fb-4e87-865a-d9bbb2ea216c
-begin
-	b = @bind reveal html"<input type=checkbox>"
-	md"""
-	## Example
-	Reveal the rest of this notebook: $(b)
-	"""
-end
-
-# ╔═╡ 13bffd02-aa18-4d84-bef1-abaa9c68fc55
-hide_everything_below =
-	html"""
-	<style>
-	pluto-cell.hide_everything_below ~ pluto-cell {
-		display: none;
-	}
-	</style>
-	
-	<script>
-	const cell = currentScript.closest("pluto-cell")
-	
-	const setclass = () => {
-		console.log("change!")
-		cell.classList.toggle("hide_everything_below", true)
-	}
-	setclass()
-	const observer = new MutationObserver(setclass)
-	
-	observer.observe(cell, {
-		subtree: false,
-		attributeFilter: ["class"],
-	})
-	
-	invalidation.then(() => {
-		observer.disconnect()
-		cell.classList.toggle("hide_everything_below", false)
-	})
-	
-	</script>
-	""";
-
-# ╔═╡ 40e7bf65-52e7-4004-ad41-ee4c636fa656
-if reveal === true
-	md"Here we go!"
-else
-	hide_everything_below
-end
-
-
-# ╔═╡ d0e28396-93a3-4faf-b081-e1102df125a6
-
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1290,72 +991,11 @@ version = "0.9.1+5"
 # ╟─131f4196-0ccb-492b-87c3-ba06e6af86a5
 # ╟─d7c6c674-1fa2-4c4e-a693-0f81e3b345b9
 # ╟─b54a636b-e3aa-4012-8e94-a7248e4392fe
-# ╠═d1899c4d-5e31-4117-bb02-43f77e782ede
-# ╠═dc07f793-b2ad-4180-814c-b143382a47f5
-# ╠═fb8e8f2e-ecc0-46d8-bc79-b3ed773040b2
-# ╠═0f62a4eb-3f72-4cab-b966-5b6847a118e1
-# ╠═aee6b1f3-4fd1-44c5-b376-b23f5f96152c
-# ╠═cba36400-c671-46a3-a925-2e10ec69b563
-# ╠═78c5a32c-fef3-11eb-0560-6592672bbca5
-# ╠═cfc1481b-2ba1-4b0a-8df6-1426887098fb
-# ╠═dda0c810-3ad1-4c72-a28d-cd32a0540db5
-# ╠═8ae64b39-cd4f-4b4c-8fbc-de2cd272d87c
-# ╠═70646a29-7ac8-43ed-9bef-44757b7ccfdd
-# ╠═c4809dcb-018d-40e0-8538-cd6094dd8582
-# ╠═b67a22a2-1c63-4d59-9d85-50dd2b82d6ea
-# ╠═27a2958b-596c-46a9-8d64-8787c2286a9d
-# ╠═4fea730f-ec8b-443b-9e85-3f950810555f
-# ╠═27f18bba-4437-43c1-88c6-5420e29e1812
-# ╠═79ba9ca4-a406-49b4-bfc2-a338a4587459
-# ╠═5c479232-fa39-44bb-ab0a-6b52ecd9a7f0
-# ╠═9743b9fc-de73-4c61-a72e-e9dae0981108
-# ╠═ceba8bf0-1dbd-45d4-a2ca-4dbd62bd05e2
-# ╠═04b1d8e1-d608-4b15-88a9-22e483cc8ed1
-# ╠═341a2299-4a73-493f-9edb-9946ab72ea54
-# ╠═5e0af51a-a2ff-4212-82dd-3712aad5be11
-# ╠═919a4b28-70cb-46eb-b856-7bf12f322282
-# ╠═1e25eace-e278-42cb-a7cc-cff59bf2b5fd
-# ╠═5ee86992-73c5-4af9-a812-396dcfdbeae8
-# ╠═fa5f571d-1354-4e0e-953e-1b4fedd29295
-# ╠═b377b128-c4b6-447d-a998-b285facce998
-# ╠═64b99e6d-c0ff-4736-baba-3d6cf1f407ec
-# ╠═7fc4ac6a-9d21-4af2-99b1-b4c72d221f54
-# ╠═89488e6e-ba8f-4848-aa5d-9e32dddd59c5
-# ╠═f730dd53-fecd-4f3d-8829-eed9686b6b48
-# ╠═fd37878d-093b-4c79-9f09-077750165541
-# ╠═3e0c4d2c-2134-4aa9-ab45-97ca26ea86e1
-# ╠═95cb3a98-a9a0-4e36-bcec-ec7ee75ebd93
-# ╠═a7774223-fe86-43a2-afc0-858a857495fb
-# ╠═999f763c-ff73-44ad-8826-543e98597710
-# ╠═0ec39670-0cee-4699-b7af-7a296ec2a590
-# ╠═f0cb1a31-a70d-4a07-a558-b6a568c20334
-# ╠═fd2a9029-94e9-413e-9bc7-54bb4971c745
-# ╠═68b9cec8-3eeb-4530-8ce7-40f0d2346a27
-# ╠═d58fe3bf-e40e-4a96-8cd6-a4d5eede14c7
-# ╠═675a489a-1d88-4aa6-a358-f7cd0ed8e0a8
-# ╠═e8dc14af-7542-47ef-be5f-1d8c8f267b0b
-# ╠═930d08b0-1c26-48da-9d21-c5c17c1c0cd0
-# ╠═31074aa4-de28-41e6-938a-8ad9e0b959f3
-# ╠═d2770a88-f918-424e-b899-adf729cecf21
-# ╠═3659db19-f0f7-47df-b23f-96d71bd60710
-# ╠═24dd195d-2ad2-40cf-9a82-31043440b741
-# ╠═ec759f2d-7bb3-4212-ab8d-1aa840851f4e
-# ╠═84bfa1b5-3612-4dba-ba6f-8f0ab12c634e
-# ╠═fbe8f51f-7b88-4e25-be2d-d58461092f8f
-# ╠═4d1ea5b1-9e31-467e-8247-291641d878c2
-# ╠═630757a3-8c5a-4c3c-9aae-628d4253b235
-# ╠═a0bc4350-a777-4586-8711-704fc6603e3c
-# ╠═500476c5-a031-47d2-83e9-d5f321cbc1cb
-# ╠═77ea9a70-a091-49aa-b9e8-fdad639214f8
-# ╠═e4608205-401b-480c-b184-1b43a032e8a9
-# ╠═7de9490d-1fca-446e-bac3-1479437cae41
-# ╠═39b0935a-d6fa-49e8-8ae4-2c2288ab437c
-# ╠═e369af66-985b-4c09-b2b0-86bef2d3339a
-# ╠═427b7fdb-cade-4303-b38f-6399154d24ab
-# ╠═4379a3ca-743e-4ada-a5f6-9fabb1f74dbf
-# ╠═81723365-c5fb-4e87-865a-d9bbb2ea216c
-# ╠═13bffd02-aa18-4d84-bef1-abaa9c68fc55
-# ╠═40e7bf65-52e7-4004-ad41-ee4c636fa656
-# ╠═d0e28396-93a3-4faf-b081-e1102df125a6
+# ╟─dc07f793-b2ad-4180-814c-b143382a47f5
+# ╟─fb8e8f2e-ecc0-46d8-bc79-b3ed773040b2
+# ╟─0f62a4eb-3f72-4cab-b966-5b6847a118e1
+# ╟─cba36400-c671-46a3-a925-2e10ec69b563
+# ╟─aee6b1f3-4fd1-44c5-b376-b23f5f96152c
+# ╟─78c5a32c-fef3-11eb-0560-6592672bbca5
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
