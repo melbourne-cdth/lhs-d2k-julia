@@ -16,9 +16,6 @@ end
 # ╔═╡ 78c5a32c-fef3-11eb-0560-6592672bbca5
 begin
     using PlutoUI
-	using YAML
-	using Plots
-	using PrettyPrinting
 end
 
 
@@ -28,11 +25,76 @@ md"""
 
 In this notebook we will be exploring what data look like in biomedical documents and how combining data creates information. For this exercise, our view of data and is strongly informed by this 
 
+## Big Picture View of Data
+
 > Data...is the raw stuff: what is collected by instrumentation or machinery. The stream of bits sent to Earth by a Mars Rover, for example, is data. The signal carried by radio frequencies between your phone and the local cell tower is data....
 > 
 > 
-> Data is stuff. It is raw, unprocessed, possibly even untouched by human hands, unviewed by human eyes, un-thought-about by human minds. We’re not used to thinking of information objects in this way: we’re used to thinking of information objects as things like books, or files on our computer, things that have been deliberately created by humans, and where human understanding is an integral part of their creation. However, think about the stream of bits sent to Earth by the Mars Rover, or a book in, for example, Lushootseed (or some other language that you neither speak nor read… and apologies if you actually do know Lushootseed): you may know that a stream of bits or a book in Lushootseed has some meaning embedded in it, but without some processing, that meaning is not accessible to you. **Data is potential information, analogous to potential energy: work is required to release it.** (Pomerantz, Jeffrey. *Metadata (MIT Press Essential Knowledge series)* (pp. 20-21). The MIT Press. Kindle Edition.)
+> Data is stuff. It is raw, unprocessed, possibly even untouched by human hands, unviewed by human eyes, un-thought-about by human minds. We’re not used to thinking of information objects in this way: we’re used to thinking of information objects as things like books, or files on our computer, things that have been deliberately created by humans, and where human understanding is an integral part of their creation. However, think about the stream of bits sent to Earth by the Mars Rover, or a book in, for example, [Lushootseed](https://en.wikipedia.org/wiki/Lushootseed) (or some other language that you neither speak nor read… and apologies if you actually do know Lushootseed): you may know that a stream of bits or a book in Lushootseed has some meaning embedded in it, but without some processing, that meaning is not accessible to you. **Data is potential information, analogous to potential energy: work is required to release it.** (Pomerantz, Jeffrey. *Metadata (MIT Press Essential Knowledge series)* (pp. 20-21). The MIT Press. Kindle Edition.)
+
+## Operational Definition of Data
+
+We are going to follow what is known as the __The Diaphoric Definition of Data (DDD):__
+
+> A datum is a putative fact regarding some difference or lack of uniformity within some context. ([Floridi, Luciano, "Semantic Conceptions of Information"](https://plato.stanford.edu/entries/information-semantic/))
+
+The context may be physical or symbolic.
+
+### Physical Example
+
+The data collected in an ECG are measurements of __differences__ in [__electrical potential__](https://en.wikipedia.org/wiki/Electric_potential) between different locations on the skin.
+
+### Symbolic Examples
+
+#### Letters
+
+The modern English alphabet consists of 26 lower-case and 26 upper-case letters. It is sometimes referred to as the Latin alphabet (for example in computer type standards), although it differs slightly from the classical Latin alphabet (Classical Latin did not have _J_, _U_, or _W_). In this context __a__ and __D__ would each be a _datum_ as they are different symbols.
+
+#### Words
+
+In a different context we may want to consider a word as a datum. So instead of viewing __BRIAN__ as the data set __{B__, __R__, __I__, __A__, __N}__, __BRIAN__ is a single datum that differs from __BRAIN__, for example, within the context of English
+
+## Exercise
+
+Can you think of contexts where __Brian Chapman__ would represent a data set with
+
+- 13 elements?
+- 12 elements?
+- 2 elements?
+- 1 element?
+
+$(@bind myNameContext TextField((80,7)))
 """
+
+# ╔═╡ 2acf7039-a934-43fa-b956-d581b5d49169
+let myNameContextAns = md"""
+
+- __13 elements:__ There are 13 characters (counting the space between "Brian" and "Chapman" as a character) in the string. I might not want to differentiate between letters and spaces if I was figuring out how to typeset the string for printing.
+- __12 elements:__ There are 12 letters in the string. I may be interested in the letters and no tthe space if were counting letter frequency, for example trying to encrypt or decrypt a message.
+- __2 elements:__ There are two words if a view the space as delimiting words.
+- __1 element:__ In the context of names, there is one name in the string.
+"""
+	
+HTML("<details><summary><strong>My Answers</strong></summary>$(html(myNameContextAns))</details>")
+    end
+
+# ╔═╡ cf21da1c-7474-409f-99c8-2e3a860a8820
+length(Set("Brian Chapman"))
+
+# ╔═╡ f541f5dc-17d5-4258-a3c7-d47e560e12db
+length("Brian Chapman")
+
+# ╔═╡ c68c0ad4-350d-4257-8a64-95cc51298011
+
+
+
+
+
+
+
+In the David Nicholls case study there are a number of physical data that are collected.
+
+For example, an ECG is a measurement of a __difference__ in __electrical voltage__ on different locations on the skin at different points of time.
 
 # ╔═╡ 2ccc8246-67cd-47ac-82a3-a06b23eb0a7d
 md"""
@@ -51,7 +113,7 @@ Here are some actual data:
 
 # ╔═╡ ccd85c80-99d8-48c5-8a23-143a402d6ff0
 md"""
-#### At the most "atomistic" view we have the following (unique) data:
+#### At the most "atomistic" view we have the following data:
 
 ```
 '1' '4' '1' '/' '7' '3' ' ' '6' '/' '3' '/' '2' '0' '2' '1'
@@ -151,39 +213,8 @@ let answer3 = md"""
 HTML("<details><summary><strong>My Answers</strong></summary>$(html(answer3))</details>")
     end
 
-# ╔═╡ bc69ad62-1199-4372-a789-072d4e7c7a2f
-md"""# Data Collection as Abstraction"""
-
-# ╔═╡ 0c1136e7-53ac-46f5-b58c-4c80da0dcc8b
-html"""
-<a data-flickr-embed="true" href="https://www.flickr.com/photos/vahemart/31475770070" title="Pasadena, Norton Simon Museum, Picasso P. The Bull, 1946"><img src="https://live.staticflickr.com/5613/31475770070_f678cf245c_b.jpg" width="1024" height="569" alt="Pasadena, Norton Simon Museum, Picasso P. The Bull, 1946"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
-
-<table border=1>
-  <tr "text-align: left">
-    <th>ID</th><th>Name</th><th>Species</th><th>Breed</th><th>Sex</th><th>Weight</th><th>DOB</th>
-  </tr>
-  <tr>
-    <td>53287</td><td>Ferdinand</td><td>Bos taurus</td><td>Pajuna</td><td>M</td><td>583</td><td>1936-08-11</td>  </tr>
-</table>
-
-"""
-
-# ╔═╡ 131f4196-0ccb-492b-87c3-ba06e6af86a5
-html"""<a title="muffinn from Worcester, UK, CC BY 2.0 &lt;https://creativecommons.org/licenses/by/2.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Spanish_bull_(13541113244).jpg"><img width="512" alt="Spanish bull (13541113244)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Spanish_bull_%2813541113244%29.jpg/512px-Spanish_bull_%2813541113244%29.jpg"></a>"""
-
-# ╔═╡ d7c6c674-1fa2-4c4e-a693-0f81e3b345b9
-html"""<a title="DFoidl, CC BY-SA 3.0 &lt;https://creativecommons.org/licenses/by-sa/3.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Taurus_cattle_Lippeaue2.JPG"><img width="512" alt="Taurus cattle Lippeaue2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Taurus_cattle_Lippeaue2.JPG/512px-Taurus_cattle_Lippeaue2.JPG"></a>"""
-
-# ╔═╡ 0f62a4eb-3f72-4cab-b966-5b6847a118e1
-html"""<h2> Further Resources on Abstraction</h2>
-
-<a title="Ingrid Kallick (http://www.ikallick.com), Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:SphericalCow2.gif"><img width="128" alt="SphericalCow2" src="https://upload.wikimedia.org/wikipedia/commons/2/23/SphericalCow2.gif"></a>
-"""
-
-# ╔═╡ cba36400-c671-46a3-a925-2e10ec69b563
-md"""
-- [What is up with the spherical cow?](https://www.wired.com/2011/02/what-is-up-with-the-spherical-cow/)
-"""
+# ╔═╡ 7d6a346a-cfc6-42b4-ad9e-5a70d958a2eb
+md"""![an image](https://github.com/chapmanbe/raw-stuff/blob/main/bmi_names.png?raw=true)"""
 
 # ╔═╡ cfc1481b-2ba1-4b0a-8df6-1426887098fb
 mutable struct DP
@@ -505,10 +536,91 @@ end
 # ╔═╡ d0e28396-93a3-4faf-b081-e1102df125a6
 
 
+# ╔═╡ 00000000-0000-0000-0000-000000000001
+PLUTO_PROJECT_TOML_CONTENTS = """
+[deps]
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+
+[compat]
+PlutoUI = "~0.7.9"
+"""
+
+# ╔═╡ 00000000-0000-0000-0000-000000000002
+PLUTO_MANIFEST_TOML_CONTENTS = """
+# This file is machine-generated - editing it directly is not advised
+
+[[Base64]]
+uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+
+[[Dates]]
+deps = ["Printf"]
+uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[InteractiveUtils]]
+deps = ["Markdown"]
+uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[[JSON]]
+deps = ["Dates", "Mmap", "Parsers", "Unicode"]
+git-tree-sha1 = "8076680b162ada2a031f707ac7b4953e30667a37"
+uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+version = "0.21.2"
+
+[[Logging]]
+uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+
+[[Markdown]]
+deps = ["Base64"]
+uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+
+[[Mmap]]
+uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+
+[[Parsers]]
+deps = ["Dates"]
+git-tree-sha1 = "438d35d2d95ae2c5e8780b330592b6de8494e779"
+uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+version = "2.0.3"
+
+[[PlutoUI]]
+deps = ["Base64", "Dates", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "Suppressor"]
+git-tree-sha1 = "44e225d5837e2a2345e69a1d1e01ac2443ff9fcb"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.9"
+
+[[Printf]]
+deps = ["Unicode"]
+uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[Random]]
+deps = ["Serialization"]
+uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+
+[[Reexport]]
+git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
+uuid = "189a3867-3050-52da-a836-e630ba90ab69"
+version = "1.2.2"
+
+[[Serialization]]
+uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+
+[[Suppressor]]
+git-tree-sha1 = "a819d77f31f83e5792a76081eee1ea6342ab8787"
+uuid = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
+version = "0.2.0"
+
+[[Unicode]]
+uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+"""
+
 # ╔═╡ Cell order:
-# ╟─7feba529-29c5-4be5-aeba-00db5397c4da
+# ╠═7feba529-29c5-4be5-aeba-00db5397c4da
+# ╠═2acf7039-a934-43fa-b956-d581b5d49169
+# ╠═cf21da1c-7474-409f-99c8-2e3a860a8820
+# ╠═f541f5dc-17d5-4258-a3c7-d47e560e12db
+# ╠═c68c0ad4-350d-4257-8a64-95cc51298011
 # ╟─2ccc8246-67cd-47ac-82a3-a06b23eb0a7d
-# ╟─ccd85c80-99d8-48c5-8a23-143a402d6ff0
+# ╠═ccd85c80-99d8-48c5-8a23-143a402d6ff0
 # ╟─9064db1d-3031-4e43-943d-1e601821e44f
 # ╠═7a611c30-c745-4ade-881e-cec71e4f6973
 # ╠═3b245fa2-1f83-45c3-9b3b-5fa62d002818
@@ -521,12 +633,7 @@ end
 # ╟─bd257e42-52b5-4fd6-9214-596617a5c10d
 # ╟─d95f2476-0286-4aa3-ab25-c6d50b113c04
 # ╟─08349618-e3a3-4d99-a56d-e145544266e2
-# ╟─bc69ad62-1199-4372-a789-072d4e7c7a2f
-# ╠═0c1136e7-53ac-46f5-b58c-4c80da0dcc8b
-# ╠═131f4196-0ccb-492b-87c3-ba06e6af86a5
-# ╠═d7c6c674-1fa2-4c4e-a693-0f81e3b345b9
-# ╠═0f62a4eb-3f72-4cab-b966-5b6847a118e1
-# ╠═cba36400-c671-46a3-a925-2e10ec69b563
+# ╠═7d6a346a-cfc6-42b4-ad9e-5a70d958a2eb
 # ╠═78c5a32c-fef3-11eb-0560-6592672bbca5
 # ╠═cfc1481b-2ba1-4b0a-8df6-1426887098fb
 # ╠═dda0c810-3ad1-4c72-a28d-cd32a0540db5
@@ -588,3 +695,5 @@ end
 # ╠═13bffd02-aa18-4d84-bef1-abaa9c68fc55
 # ╠═40e7bf65-52e7-4004-ad41-ee4c636fa656
 # ╠═d0e28396-93a3-4faf-b081-e1102df125a6
+# ╟─00000000-0000-0000-0000-000000000001
+# ╟─00000000-0000-0000-0000-000000000002
