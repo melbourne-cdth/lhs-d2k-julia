@@ -4,11 +4,16 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ fdac3e2e-1204-11ec-3359-9fa3e919d25c
+# ╔═╡ 3fe308a6-1490-11ec-1a5a-65f6e8e70959
 md"""
-# Data collection and usefulness
+# Health Standards Relevant to this Project
 
+## Discharge Diagnosis Codes
+
+## Lab Tests
+
+## Prescriptions
 """
 
 # ╔═╡ Cell order:
-# ╠═fdac3e2e-1204-11ec-3359-9fa3e919d25c
+# ╠═3fe308a6-1490-11ec-1a5a-65f6e8e70959
