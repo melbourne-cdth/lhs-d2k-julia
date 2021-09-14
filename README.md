@@ -10,7 +10,6 @@
   - [dik_in_ehr.jl](dik_in_ehr.jl)
 - [How is data collection like abstract art?](https://binder.plutojl.org/v0.16.0/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fmelbourne-cdth%252Flhs-d2k-julia%252Fmain%252Fdata_abstraction.jl)
    - [data_abstraction.jl](data_abstraction.jl)
-- [What does data look like in an EMR?]()
 - [How does the nature of our data collection impact the usefulness of the data?]()
 - [What are standards and why do we need them?](https://binder.plutojl.org/v0.16.0/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fmelbourne-cdth%252Flhs-d2k-julia%252Fmain%252Fstandards_intro.jl)
    - [standards_intro.jl](standards_intro.jl)
